@@ -2,6 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import dotenv from "dotenv";
+
+dotenv.config({ path: "./config.env" });
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -14,7 +17,7 @@ const Contact = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/send/email",
+        process.env.SERVER_SIDE_API,
         {
           name,
           email,
