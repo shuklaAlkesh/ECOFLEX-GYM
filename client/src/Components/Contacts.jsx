@@ -17,7 +17,7 @@ const Contact = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        process.env.SERVER_SIDE_API,
+        "http://localhost:4000/send/email",
         {
           name,
           email,
