@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
-dotenv.config({ path: "./config.env" });
+// dotenv.config();
 
 const Contact = () => {
   const [name, setName] = useState("");
