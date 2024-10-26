@@ -1,27 +1,26 @@
 import express from 'express';
 import cors from 'cors';
-import { sendEmail } from './utils/sendEmail.js';
 import dotenv from "dotenv";
-
-const app = express();
-const router = express.Router();
+import { sendEmail } from './utils/sendEmail.js';
 
 dotenv.config({ path: "./config.env" });
 
+const app = express();
+
 app.use(cors({
-    origin: process.env.CLIENT_SIDE_API, 
+    origin: "http://localhost:5173", // set to your frontend origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json());  
+app.use(express.urlencoded({ extended: true }));  
 
 // Routes
-router.post('/send/email', async (req, res) => {
+app.post('/send/email', async (req, res) => {
     const { name, email, message } = req.body;
-    
+    console.log(name, email, message);  
     if (!name || !email || !message) {
         return res.status(400).json({
             success: false,
@@ -29,7 +28,7 @@ router.post('/send/email', async (req, res) => {
         });
     }
 
-    try {
+    try {  
         await sendEmail({
             email: "shuklalkesh@gmail.com",
             subject: "ECOFLEX GYM WEBSITE CONTACT",
@@ -50,8 +49,7 @@ router.post('/send/email', async (req, res) => {
     }
 });
 
-app.use(router); // Mount the router
-
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

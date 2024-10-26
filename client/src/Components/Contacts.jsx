@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
+
 // import dotenv from "dotenv";
 
 // dotenv.config();
@@ -32,12 +33,16 @@ const Contact = () => {
       setEmail("");
       setMessage("");
       toast.success(data.message);
-      setLoading(false);
     } catch (error) {
+      const errorMessage = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : "An error occurred. Please try again.";
+      toast.error(errorMessage);
+    } finally {
       setLoading(false);
-      toast.error(error.response.data.message);
     }
   };
+
 
   return (
     <section className="contact">
@@ -58,7 +63,7 @@ const Contact = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </div>
+        </div>  
         <div>
           <label>Message</label>
           <input
